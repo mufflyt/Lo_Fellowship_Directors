@@ -13,3 +13,6 @@ ACGME_all_OBGYN_fellowships - I was able to write code that scraped the ACGME fe
 
 Cool Tip:
 * https://www.alecdibble.com/blog/large-csvs-on-mac/#tldr
+
+
+We called, e-mailed and called again to get the chair names.  
