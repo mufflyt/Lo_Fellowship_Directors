@@ -17,4 +17,4 @@ Cool Tip:
 
 A list of OBGYN and Urology chairs was gathered by e-mailing department secretaries, calling OBGYN departments, and searching department web sites to get the chair names.  Military program chairs were eliminated as they were few and far between.  The NPI and PPI of each chair were hand searched.  Finally we ran an inner join between the payments and the PPI.  
 
-This was done using `sqldf` to do inner joins within the RAM limits of R and these large files: `sqldf('select OP_14.* from OP_14 join StudyGroup on OP_14.Physician_Profile_ID = StudyGroup.PPI' )`
+This was done using `sqldf` to do inner joins within the RAM limits of R and these large files: `sqldf('select OP_14.* from OP_14 join StudyGroup on OP_14.Physician_Profile_ID = StudyGroup.PPI' )`.  The file was called `3_1_Load_Data.R`.  Each year takes about 20 minutes to run the inner join between the selected PPI numbers and the payments data.  
