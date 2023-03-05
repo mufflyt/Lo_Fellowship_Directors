@@ -32,7 +32,16 @@ This was done using `sqldf` to do inner joins within the RAM limits of R and the
 "PPI_from_mturk" - Chairs with their PPI numbers.  
 
 # Crowdsourcing
-All the data is public information and can be shared.  
+All the data is public information and can be shared.  Dates of starting and ending as chair of OBGYN or Urology were found most easily at LinkedIn.  The dates for program directors are ACGME (https://apps.acgme.org/ads/Public/Programs/Search).
+
+```r
+https://apps.acgme.org/ads/Public/Programs/Detail?programId=3288&ReturnUrl=https%3A%2F%2Fapps.acgme.org%2Fads%2FPublic%2FPrograms%2FSearch
+Director Information
+Audra R Williams, MD, MPH
+Assistant Professor, Residency Program Director
+Director First Appointed:
+September 01, 2022
+```
 
 # The Open Payments Data
 https://www.cms.gov/openpayments/data/dataset-downloads - Before 2021 there was no link between PPI and NPI number.  The 2021 data includes both variables and should be much easier to use.  
