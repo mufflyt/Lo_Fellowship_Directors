@@ -153,7 +153,24 @@ years <- c(2013)
   write.csv(joined_data_2013, file = "/Volumes/Video Projects Muffly 1/coi/joined_data_2013.csv", row.names = FALSE); rm(joined_data_2013)
 ```
 # Table 1
-Built 
+Built with arsenal from data that I cleaned up in it's own exploratory branch called Table1.  
+
+# Table 2
+See exploratory branch called Table 2 under new_financials.  
+
+# Figure 1
+Exploratory: figure - cran_figure.  I created a new branch called joined_data_all.  This is exported to 'Lo_cran_releases_adapted.RMD'.  
+```r
+# Data Wrangling ----------------------------------------------------------
+# Data Reading 
+cran1 <- readr::read_csv("~/Dropbox (Personal)/Lo_Fellowship_Directors/data/joined_data_all.csv")
+```
+
+I can't get the `ggsave` to work so I plotted it and took a screenshot.  
+
+
+
+
 
 
 
