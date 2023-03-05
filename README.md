@@ -152,6 +152,21 @@ years <- c(2013)
   # Save the joined data frame as a CSV file
   write.csv(joined_data_2013, file = "/Volumes/Video Projects Muffly 1/coi/joined_data_2013.csv", row.names = FALSE); rm(joined_data_2013)
 ```
+# Table 1
+Built 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Exploratory.io code
 ### ~chair_name_dates_started
