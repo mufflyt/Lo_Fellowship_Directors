@@ -1,12 +1,11 @@
 # Lo_Chairs_vs_Residency_directors
 
-ACGME_all_OBGYN_fellowships - I was able to write code that scraped the ACGME fellowship directors. After that I uploaded the names to Mturk that gave me the NPI numbers.  
+ACGME_all_OBGYN_fellowships - I was able to scrape the ACGME fellowship directors. After that I uploaded the names to Mturk that gave me the NPI numbers.  
 
 * Shilpa found the names of the OBGYN and Urology chairs.  From that we were able to use mechanical turk to search their NPI, PPI, and healthgrades.com age.  Lo and Iris pulled the ACGME data by hand for Urology and OBGYN residencies.  
 
 * Most of the data munging was done in exploratory.io in the Lo_and_Muffly project, Chair vs. Residency folder, Compiled Programs from Shilpa.  
 * Subspecialty for OBGYN can be found in GOBA.  Subspecialty for Urology can be found in ABU.  But only FPMRS were on the ABU site so we had to look at the Urology Care Foundation for subspecialty as well.  
-
 
 
 
@@ -31,9 +30,11 @@ This was done using `sqldf` to do inner joins within the RAM limits of R and the
 "chair_age_Batch_4702625_batch_results" - 247 chair names and their ages searched in healthgrades.com.  
 "PPI_from_mturk" - Chairs with their PPI numbers.  
 
+# ACGME data
+To use Docker in addition to some bespoke code from Bart.  See directory: "/Users/tylermuffly/Dropbox (Personal)/workforce/Master_Scraper"
+
 # Crowdsourcing
 All the data is public information and can be shared.  Dates of starting and ending as chair of OBGYN or Urology were found most easily at LinkedIn.  The dates for program directors are ACGME (https://apps.acgme.org/ads/Public/Programs/Search).
-
 ```r
 https://apps.acgme.org/ads/Public/Programs/Detail?programId=3288&ReturnUrl=https%3A%2F%2Fapps.acgme.org%2Fads%2FPublic%2FPrograms%2FSearch
 Director Information
@@ -44,7 +45,78 @@ September 01, 2022
 ```
 
 # The Open Payments Data
-https://www.cms.gov/openpayments/data/dataset-downloads - Before 2021 there was no link between PPI and NPI number.  The 2021 data includes both variables and should be much easier to use.  
+https://www.cms.gov/openpayments/data/dataset-downloads - Before 2021 there was no link between PPI and NPI number.  The 2021 data includes both variables and should be much easier to use.  This is typical amazing work by Joe Guido over the years.  
+
+Download_all_data.R
+```r
+#Data from CMS is located at:
+time.1 <- Sys.time()
+
+decompress_file <- function(directory, file, .file_cache = FALSE) {
+
+  if (.file_cache == TRUE) {
+    print("decompression skipped")
+  } else {
+
+    # Set working directory for decompression
+    # simplifies unzip directory location behavior
+    wd <- getwd()
+    setwd(directory)
+
+    # Run decompression
+    decompression <-
+      system2("unzip",
+              args = c("-o", # include override flag
+                       file),
+              stdout = TRUE)
+
+    # uncomment to delete archive once decompressed
+    # file.remove(file)
+
+    # Reset working directory
+    setwd(wd); rm(wd)
+
+    # Test for success criteria
+    # change the search depending on
+    # your implementation
+    if (grepl("Warning message", tail(decompression, 1))) {
+      print(decompression)
+    }
+  }
+}
+
+directory <-"/Users/tylermuffly/Dropbox (Personal)/Lo_and_Muffly/"
+data_folder <- ""
+
+# create a temporary file and a temporary directory on your local disk
+tf <- tempfile()
+td <- tempdir()
+
+#2019
+download.file("https://download.cms.gov/openpayments/PGYR19_P063020.ZIP",
+              tf,
+              mode = "wb")
+# unzip the files to the temporary directory
+files <- unzip( tf , exdir = td )
+
+# here are your files
+files
+
+#decompress_file(directory = directory, "2019_dataset.zip")
+dataset_2019 <- read.delim(files[1])
+dataset_2019 %<>% mutate(year = "2019")
+
+master <- rbind (dataset_2013, dataset_2014, dataset_2015, dataset_2016, dataset_2017, dataset_2018, dataset_2019)
+
+dim(master)
+summary(master)
+master$year <- as.factor (master$year)
+
+write.csv(master, paste0(data_folder,"open_payments_master.csv"))
+time.2 <- Sys.time()
+
+cat(sprintf(" %.1f", as.numeric(difftime(time.2, time.1,  units="secs"))), " secs\n")
+```
 
 # Code block on 'get_data.R':
 We can't use 'data.table' given that Mac can't run OpenMP with multiple threads.  Instead we are using 'sqldf' that is slower but more proven and stable. The get_data.R file takes the StudyGroup variable which is two columns: NPI and PPI numbers.  This allows for the identification of the chairs and program directors of interest.   
