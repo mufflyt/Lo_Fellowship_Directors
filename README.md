@@ -159,7 +159,7 @@ Built with arsenal from data that I cleaned up in it's own exploratory branch ca
 See exploratory branch called Table 2 under new_financials.  
 
 # Figure 1
-Exploratory: figure - cran_figure.  I created a new branch called joined_data_all.  This is exported to 'Lo_cran_releases_adapted.RMD'.  
+Exploratory: figure - cran_figure.  I created a new branch in 'Figures' called 'joined_data_all'.  This is exported to 'Lo_cran_releases_adapted.RMD'.  Based on the reviewers I added the daily payments plot to show who the payments were from: OBGYN or from Urology.  
 ```r
 # Data Wrangling ----------------------------------------------------------
 # Data Reading 
@@ -168,7 +168,14 @@ cran1 <- readr::read_csv("~/Dropbox (Personal)/Lo_Fellowship_Directors/data/join
 
 I can't get the `ggsave` to work so I plotted it and took a screenshot.  
 
+# Figure 2 
+Violin plot made in exploratory.
 
+# Figure 3
+"/Users/tylermuffly/Dropbox (Personal)/Lo_Fellowship_Directors/Figure_state_mini_map".  The file that runs is "state_mini_map_newer.Rmd".  I changed it to show percentage of the funds paid to OBGYN vs. Urology instead of position.  Added better labels for the x and y axis after I sent it to Iris.  
+
+# Figure 4
+Was able to build the forst plot in Exploratory.io which was nice as I could not figure out how to do it in finalfit.  
 
 
 
