@@ -1,5 +1,36 @@
 # Lo_Chairs_vs_Residency_directors
+Comparison of industry payments from PD and chairs in Urology and OBGYN.  We submitted to JGME and they were extremely kind in their reviews with feedback.  They recommended using a linear mixed model approach because the data is non-parametric.  This linear mixed model is helpful because we are sampling a cluster.  Linear mixed models are an extension of simple linear models to allow both fixed and random effects, and are particularly used when there is non independence in the data, such as arises from a hierarchical structure. For example, students could be sampled from within classrooms, or patients from within doctors. For example, suppose 10 patients are sampled from each doctor. Rather than using the individual patients’ data, which is not independent, we could take the average of all patients within a doctor (NESTED). See the graph where we treat each physician's patient's separately.  
+![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/bc0ddbcb-0026-41a9-8694-ea69aa219d0d)
+![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/a90b9108-73d0-4384-b034-cb5c74f68620)
 
+# Fit the mixed-effects model
+Amany did a great job categorizing the data.  
+```r
+df$Years_in_position <- ifelse(df$Years_in_position > 8 & df$Years_in_position < 11, "9-10", ifelse(df$Years_in_position >= 11 ,"+11", df$Years_in_position))
+df$Years_in_position <- factor(df$Years_in_position, levels = c("1", "2", "3", "4", "5", "6", "9-10", "+11"))
+
+mixed.lmer <- lmer(log(sum_of_payments_per_person) ~ 
+                     Year + Specialty + ACOG_District + Position + Credentials + Gender + Age + (1|Years_in_position),
+                   data = df, na.action = na.omit)
+```
+We calculated the log(sum_of_payments_per_person) because transformation allowed for the residual to be normally distributed.  Because the outcome was the log then we had to exponentiate the data back together.  This was done automatically with the `sjPlot` which as really helpful. I checked a lot of assumptions with the 'easystats' packages.  These are fire.  
+
+# Model diagnostics
+```r
+check_normality(mixed.lmer)          
+check_normality(mixed.lmer) %>% plot(type = "qq")
+qqnorm(resid(mixed.lmer)) #Q-Q Plot of the residuals
+qqline(resid(mixed.lmer)) #Q-Q Plot of the residuals with a line
+check_heteroscedasticity(mixed.lmer) 
+check_heteroscedasticity(mixed.lmer) %>% plot()
+check_autocorrelation(mixed.lmer)
+check_collinearity(mixed.lmer)
+check_singularity(mixed.lmer)
+model_performance(mixed.lmer, metrics = "all")
+```
+
+
+####
 ACGME_all_OBGYN_fellowships - I was able to scrape the ACGME fellowship directors. After that I uploaded the names to Mturk that gave me the NPI numbers.  
 
 * Shilpa found the names of the OBGYN and Urology chairs.  From that we were able to use mechanical turk to search their NPI, PPI, and healthgrades.com age.  Lo and Iris pulled the ACGME data by hand for Urology and OBGYN residencies.  
