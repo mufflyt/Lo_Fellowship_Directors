@@ -3,18 +3,15 @@ Comparison of industry payments from PD and chairs in Urology and OBGYN.  We sub
 ![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/bc0ddbcb-0026-41a9-8694-ea69aa219d0d)
 ![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/a90b9108-73d0-4384-b034-cb5c74f68620)
 
-Format of the data required.  The data needs to be clustered. 
-Physician ID, Year, Payment
-1, 2014, $$
-1, 2015, $$
-1, 2016, $$
-...
-1, 2021, $$
-2, 2014, $$
-2, 2015, $$
-...
-2, 2021, $$
-...
+Format of the data required.  The data needs to be nested. The below data structure is nested, you can see that for each physician, there are multiple years of data (a couple of rows) associated with the physician.
+* Physician ID, Year, Payment
+* 1, 2014, $$
+* 1, 2015, $$
+* 1, 2016, $$
+* 1, 2021, $$
+* 2, 2014, $$
+* 2, 2015, $$
+* 2, 2021, $$
 
 # Normal distribution?
 ### Visual skewness - a longer tail on the right indicates right-skewness, while a longer tail on the left indicates left-skewness.
