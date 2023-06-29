@@ -36,6 +36,9 @@ mixed.lmer <- lmer(log(sum_of_payments_per_person) ~
 ```
 We calculated the log(sum_of_payments_per_person) because transformation allowed for the residual to be normally distributed.  Because the outcome was the log then we had to exponentiate the data back together.  This was done automatically with the `sjPlot` which as really helpful. I checked a lot of assumptions with the 'easystats' packages: 'parameters'.  These are fire.  
 
+
+![Screen Shot 2023-06-29 at 9 13 21 AM](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/1a0d851b-4359-405f-a6d1-63dc9ae9d4bd)
+
 # Model diagnostics
 ```r
 check_normality(mixed.lmer)          
