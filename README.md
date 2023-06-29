@@ -3,6 +3,30 @@ Comparison of industry payments from PD and chairs in Urology and OBGYN.  We sub
 ![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/bc0ddbcb-0026-41a9-8694-ea69aa219d0d)
 ![image](https://github.com/mufflyt/Lo_Fellowship_Directors/assets/44621942/a90b9108-73d0-4384-b034-cb5c74f68620)
 
+Format of the data required.  The data needs to be clustered. 
+Physician ID, Year, Payment
+1, 2014, $$
+1, 2015, $$
+1, 2016, $$
+...
+1, 2021, $$
+2, 2014, $$
+2, 2015, $$
+...
+2, 2021, $$
+...
+
+# Normal distribution?
+### Visual skewness - a longer tail on the right indicates right-skewness, while a longer tail on the left indicates left-skewness.
+```r
+df$log_sum_of_payments_per_person <- log(df$sum_of_payments_per_person)
+hist(df$log_sum_of_payments_per_person, main = "Histogram of log(sum_of_payments_per_person)")
+```
+
+### Mathematical skewness - If the skewness value is positive, it indicates right-skewness, while a negative value indicates left-skewness. The magnitude of the skewness value indicates the degree of skewness. In general, a skewness value between -0.5 and 0.5 is considered approximately symmetric.
+```r
+skewness(df$log_sum_of_payments_per_person)
+```
 # Fit the mixed-effects model
 Amany did a great job categorizing the data.  
 ```r
@@ -13,7 +37,7 @@ mixed.lmer <- lmer(log(sum_of_payments_per_person) ~
                      Year + Specialty + ACOG_District + Position + Credentials + Gender + Age + (1|Years_in_position),
                    data = df, na.action = na.omit)
 ```
-We calculated the log(sum_of_payments_per_person) because transformation allowed for the residual to be normally distributed.  Because the outcome was the log then we had to exponentiate the data back together.  This was done automatically with the `sjPlot` which as really helpful. I checked a lot of assumptions with the 'easystats' packages.  These are fire.  
+We calculated the log(sum_of_payments_per_person) because transformation allowed for the residual to be normally distributed.  Because the outcome was the log then we had to exponentiate the data back together.  This was done automatically with the `sjPlot` which as really helpful. I checked a lot of assumptions with the 'easystats' packages: 'parameters'.  These are fire.  
 
 # Model diagnostics
 ```r
@@ -28,6 +52,8 @@ check_collinearity(mixed.lmer)
 check_singularity(mixed.lmer)
 model_performance(mixed.lmer, metrics = "all")
 ```
+One pain is that exporting data from these sjPlot tables is not super easy. I found the easiest way was to copy the body of the table into the clipboard and then paste it into Excel. l. No journals accept PDFs for tables.  Ugh.  
+
 
 
 ####
