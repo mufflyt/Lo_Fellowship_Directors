@@ -793,3 +793,15 @@ library(exploratory)
   select(-ID) %>%
   distinct(NPI, .keep_all = TRUE)
 ```
+
+
+
+#####
+Name matching
+
+Fuzzy lookup add in for Excel - Can do a fuzzy match with excel for PC.  There is no tool for Mac.  
+
+Using fuzzywuzzyR package
+https://youtu.be/RibBUG9Zuvs?si=mPt2SSOQ446FPZiL
+
+
